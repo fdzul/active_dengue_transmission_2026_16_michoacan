@@ -1,5 +1,5 @@
 ---
-title: "Programa de Prevención y Control de Arbovirosis | 2026 | Michoacán"
+title: "Programa de Prevención y Control de Arbovirosis | 2026 | 20 Oaxaca"
 format: 
   dashboard:
     nav-buttons: [twitter, github, facebook]
@@ -17,6 +17,12 @@ source("~/Library/CloudStorage/Dropbox/r_developments/r_dashboards/netlify/1.2.p
 library(fishualize)
 
 source("~/Library/CloudStorage/Dropbox/r_developments/r_dashboards/netlify/1.2.persisten_dengue_transmission_2026/persistent_dengue_transmission_10_durango/mp_dengue_cases.R")
+
+estado <- "16"
+localidad1 <- "Morelia"
+localidad2 <- "Huetamo de Nuñez"
+localidad3 <- "Uruapan"
+
 ```
 
 
@@ -115,9 +121,9 @@ source("~/Library/CloudStorage/Dropbox/r_developments/r_dashboards/netlify/1.2.p
 
 ::: grid-card
 
-```{r distribucion_huetamo,echo=FALSE}
+```{r distribucion_localidad1,echo=FALSE}
 z |>
-    dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
+    #dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
     dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
     dplyr::select(ANO, long, lat, onset) |>
     dplyr::mutate(x = long,
@@ -125,8 +131,8 @@ z |>
     sf::st_as_sf(coords = c("x", "y"),
                  crs = 4326) |>
     mp_dengue_cases(yrs = 2026,
-                    locality = "Huetamo de Nuñez",
-                    cve_edo = "16")
+                    locality = localidad1,
+                    cve_edo = estado)
 
 
 ```
@@ -135,9 +141,9 @@ z |>
 
 ::: grid-card
 
-```{r distribucion_uruapan,echo=FALSE}
+```{r distribucion_localidad2,echo=FALSE}
 z |>
-    dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
+    #dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
     dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
     dplyr::select(ANO, long, lat, onset) |>
     dplyr::mutate(x = long,
@@ -145,13 +151,32 @@ z |>
     sf::st_as_sf(coords = c("x", "y"),
                  crs = 4326) |>
     mp_dengue_cases(yrs = 2026,
-                    locality = "Uruapan",
-                    cve_edo = "16")
+                    locality = localidad2,
+                    cve_edo = estado)
 
 
 ```
 :::
 
+
+::: grid-card
+
+```{r distribucion_localidad3,echo=FALSE}
+z |>
+    #dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
+    dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
+    dplyr::select(ANO, long, lat, onset) |>
+    dplyr::mutate(x = long,
+                  y = lat) |>
+    sf::st_as_sf(coords = c("x", "y"),
+                 crs = 4326) |>
+    mp_dengue_cases(yrs = 2026,
+                    locality = localidad3,
+                    cve_edo = estado)
+
+
+```
+:::
 
 
 
@@ -159,9 +184,9 @@ z |>
 <div class="column-header"> Mapas de Calor</div>
 
 ::: grid-card
-```{r heatmap_huetamo,echo=FALSE}
+```{r heatmap_localidad1,echo=FALSE}
 z |>
-    dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
+    #dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
     dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
     dplyr::select(ANO, long, lat, onset) |>
     dplyr::mutate(x = long,
@@ -169,16 +194,16 @@ z |>
     sf::st_as_sf(coords = c("x", "y"),
                  crs = 4326) |>
   mp_heatmap(yrs = 2026,
-           cve_edo = "16",
-           locality = "Huetamo de Nuñez")
+           cve_edo = estado,
+           locality = localidad1)
 
 ```
 :::
 
 ::: grid-card
-```{r heatmap_uruapan,echo=FALSE}
+```{r heatmap_localidad2,echo=FALSE}
 z |>
-    dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
+    #dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
     dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
     dplyr::select(ANO, long, lat, onset) |>
     dplyr::mutate(x = long,
@@ -186,8 +211,25 @@ z |>
     sf::st_as_sf(coords = c("x", "y"),
                  crs = 4326) |>
   mp_heatmap(yrs = 2026,
-           cve_edo = "16",
-           locality = "Uruapan")
+           cve_edo = estado,
+           locality = localidad2)
+
+```
+:::
+
+::: grid-card
+```{r heatmap_localidad3,echo=FALSE}
+z |>
+    #dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
+    dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
+    dplyr::select(ANO, long, lat, onset) |>
+    dplyr::mutate(x = long,
+                  y = lat) |>
+    sf::st_as_sf(coords = c("x", "y"),
+                 crs = 4326) |>
+  mp_heatmap(yrs = 2026,
+           cve_edo = estado,
+           locality = localidad3)
 
 ```
 :::
@@ -199,7 +241,13 @@ z |>
 
 ::: grid-card
 
-```{r chains_huetamo,echo=FALSE}
+No hay cadenas de transmisión
+
+:::
+
+
+::: grid-card
+```{r chains_localidad2,echo=FALSE}
 z |>
     #dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
     dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
@@ -208,17 +256,15 @@ z |>
                   y = lat) |>
     sf::st_as_sf(coords = c("x", "y"),
                  crs = 4326) |>
-    mp_transmission_chains(
-                           yrs = 2026,
-                           locality = "Huetamo de Nunez",
-                           cve_edo = "16")
+    mp_transmission_chains(yrs = 2026,
+                           locality = localidad2,
+                           cve_edo = estado)
 
 ```
 :::
 
 ::: grid-card
-
-```{r chains_uruapan,echo=FALSE}
+```{r chains_localidad3,echo=FALSE}
 z |>
     #dplyr::filter(IDE_EDA_ANO <= 12 | IDE_EDA_ANO >= 65) |>
     dplyr::mutate(onset = FEC_INI_SIGNOS_SINT) |>
@@ -227,15 +273,12 @@ z |>
                   y = lat) |>
     sf::st_as_sf(coords = c("x", "y"),
                  crs = 4326) |>
-    mp_transmission_chains(
-                           yrs = 2026,
-                           locality = "Uruapan",
-                           cve_edo = "16")
+    mp_transmission_chains(yrs = 2026,
+                           locality = localidad3,
+                           cve_edo = estado)
 
 ```
 :::
-
-
 
 </div>
 :::::::::::::::::::::
